@@ -52,10 +52,23 @@ class CollectScene: SKScene, SKPhysicsContactDelegate {
         }
     func addBackground() {
         let bg = SKSpriteNode(imageNamed: "thePit")
-        bg.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        bg.size = CGSize(width: size.width, height: size.height)
         bg.zPosition = -10
-            addChild(bg)
+        bg.position = CGPoint(x: size.width / 2, y: size.height / 2)
+
+        if let texture = bg.texture {
+            let imageAspect = texture.size().width / texture.size().height
+            let screenAspect = size.width / size.height
+
+            if imageAspect > screenAspect {
+                bg.size.height = size.height
+                bg.size.width = size.height * imageAspect
+            } else {
+                bg.size.width = size.width
+                bg.size.height = size.width / imageAspect
+            }
+        }
+
+        addChild(bg)
     }
     func setupBasket() {
         basket = SKSpriteNode(imageNamed: "basket")
